@@ -66,23 +66,34 @@ unless File.exist?("#{node[:magento][:dir]}/.installed")
   node.set['php-fpm']['pool']['magento']['listen'] = "#{node['php-fpm']['master']}:9001"
   # EOF: Initialization block
 
+  # Install Required Repos: IUS, EPEL 
+  execute "Install Repos"
+  command "rpm -Uhv --nosignature --replacepkgs http://dl.iuscommunity.org/pub/ius/stable/CentOS/6/x86_64/epel-release-6-5.noarch.rpm http://dl.iuscommunity.org/pub/ius/stable/CentOS/6/x86_64/ius-release-1.0-11.ius.centos6.noarch.rpm"
+  action  :run
+
   # Install php-fpm package
   include_recipe "php-fpm"
 
-  # Centos Polyfills
-  if platform?('centos', 'redhat')
-    execute "Install libmcrypt" do
-      not_if "rpm -qa | grep -qx  'libmcrypt-2.5.7-1.2.el6.rf'"
-      command "rpm -Uvh --nosignature --replacepkgs http://pkgs.repoforge.org/libmcrypt/libmcrypt-2.5.7-1.2.el6.rf.#{machine}.rpm"
-      action :run
-    end
-    execute "Install php-mcrypt" do
-      not_if "rpm -qa | grep -qx 'php-mcrypt'"
-      command "rpm -Uvh --nosignature --replacepkgs http://dl.fedoraproject.org/pub/epel/6/x86_64/php-mcrypt-5.3.3-1.el6.x86_64.rpm"
-      action :run
-      notifies :restart, "service[php-fpm]"
-    end
-  end
+  #Install Mcrypt
+  execute "Mcrypt PHP Install"
+  command "yum makecache ; yum -y install php-mcrypt.x86_64 libmcrypt.x86_64"
+  action  :run
+  
+
+#  # Centos Polyfills
+#  if platform?('centos', 'redhat')
+#    execute "Install libmcrypt" do
+#      not_if "rpm -qa | grep -qx  'libmcrypt-2.5.7-1.2.el6.rf'"
+#      command "rpm -Uvh --nosignature --replacepkgs http://pkgs.repoforge.org/libmcrypt/libmcrypt-2.5.7-1.2.el6.rf.#{machine}.rpm"
+#      action :run
+#    end
+#    execute "Install php-mcrypt" do
+#      not_if "rpm -qa | grep -qx 'php-mcrypt'"
+#      command "rpm -Uvh --nosignature --replacepkgs http://dl.fedoraproject.org/pub/epel/6/x86_64/php-mcrypt-5.3.3-1.el6.x86_64.rpm"
+#      action :run
+#      notifies :restart, "service[php-fpm]"
+#    end
+#  end
 
   # Install required packages
   node[:magento][:packages].each do |package|
