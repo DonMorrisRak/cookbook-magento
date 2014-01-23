@@ -75,9 +75,16 @@ unless File.exist?("#{node[:magento][:dir]}/.installed")
   include_recipe "php-fpm"
 
   #Install Mcrypt
-  execute "Mcrypt PHP Install"
-  command "yum makecache ; yum -y install php-mcrypt.x86_64 libmcrypt.x86_64"
-  action  :run
+  %w{ php-mcrypt libmcrypt }.each do |mcinstall|
+    package mcinstall do
+     action :install
+    end
+  end
+    
+  
+  ##execute "Mcrypt PHP Install"
+  ##command "yum makecache ; yum -y install php-mcrypt.x86_64 libmcrypt.x86_64"
+  ##action  :run
   
 
 #  # Centos Polyfills
