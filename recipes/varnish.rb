@@ -32,8 +32,7 @@ when "rhel", "fedora"
 
   execute "Install varnish-release" do
     not_if "rpm -qa | grep -qx 'varnish-release-3.0-1'"
-    command "rpm -Uvh --nosignature --replacepkgs http://repo.varnish-cache.org/redhat/varnish-3.0/el5/noarch/varnish-release-3.0-1.noarch.rpm"
-    action :run
+    command "rpm -Uvh --nosignature --replacepkgs http://repo.varnish-cache.org/redhat/varnish-3.0/el6/noarch/varnish-release/varnish-release-3.0-1.el6.noarch.rpm"
     notifies :run, resources(:execute => 'reload-external-yum-cache'), :immediately
     notifies :create, resources(:ruby_block => 'reload-internal-yum-cache'), :immediately
   end
