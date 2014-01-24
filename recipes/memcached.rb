@@ -55,7 +55,8 @@ when "rhel", "fedora"
       :user => node[:memcached][:user],
       :maxconn => node[:magento][:memcached][:sessions][:maxconn],
       :memory => node[:magento][:memcached][:sessions][:memory],
-      :listen => node[:magento][:memcached][:sessions][:listen]
+      :listen => node[:magento][:memcached][:sessions][:listen],
+      :logfilename => node[:magento][:memcached][:sessions]['logfilename']
     )
   end
   template "/etc/init.d/memcached_backend" do
@@ -69,7 +70,8 @@ when "rhel", "fedora"
       :user => node[:memcached][:user],
       :maxconn => node[:magento][:memcached][:slow_backend][:maxconn],
       :memory => node[:magento][:memcached][:slow_backend][:memory],
-      :listen => node[:magento][:memcached][:slow_backend][:listen]
+      :listen => node[:magento][:memcached][:slow_backend][:listen],
+      :logfilename => node[:magento][:memcached][:slow_backend]['logfilename']
     )
   end
 else 
@@ -98,7 +100,8 @@ template "#{node[:memcache][:config_dir]}/memcached_sessions.conf" do
     :port => node[:memcached][:port],
     :user => node[:memcached][:user],
     :listen => node[:memcached][:listen],
-    :maxconn => node[:memcached][:maxconn]
+    :maxconn => node[:memcached][:maxconn],
+    :logfilename => node[:memcached][:logfilename]
   )
 end
 
@@ -125,7 +128,9 @@ template "#{node[:memcache][:config_dir]}/memcached_backend.conf" do
     :user => node[:memcached][:user],
     :group => node[:memcached][:group],
     :listen => node[:magento][:memcached][:slow_backend][:listen],
-    :maxconn => node[:magento][:memcached][:slow_backend][:maxconn] 
+    :maxconn => node[:magento][:memcached][:slow_backend][:maxconn],
+    :logfilename => node[:magento][:memcached][:slow_backend][:logfilename]
+ 
   )
 end
 

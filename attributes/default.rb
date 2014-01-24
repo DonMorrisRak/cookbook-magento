@@ -1,6 +1,6 @@
 # General settings
 default[:magento][:download_url] = "http://www.magentocommerce.com/downloads/assets/1.7.0.2/magento-1.7.0.2.tar.gz"
-default[:magento][:dir] = "/var/www/magento"
+default[:magento][:dir] = "/var/www/vhosts/#{node[:magento][:hostname]}"
 default[:magento][:use_sample_data] = false
 default[:magento][:sample_data_url] = 'http://www.magentocommerce.com/downloads/assets/1.6.1.0/magento-sample-data-1.6.1.0.tar.gz'
 default[:magento][:run_type] = "store"
@@ -39,18 +39,18 @@ end
 # Web Server
 default[:magento][:webserver] = 'nginx'
 
-set['php-fpm']['pools'] = ["magento"]
+set['php-fpm']['pool'] = ["magento"]
 
-set_unless['php-fpm']['pool']['magento']['listen'] = "127.0.0.1:9001"
-set_unless['php-fpm']['pool']['magento']['allowed_clients'] = ["127.0.0.1"]
-set_unless['php-fpm']['pool']['magento']['user'] = 'magento'
-set_unless['php-fpm']['pool']['magento']['group'] = 'magento'
-set_unless['php-fpm']['pool']['magento']['process_manager'] = "dynamic"
-set_unless['php-fpm']['pool']['magento']['max_children'] = 50
-set_unless['php-fpm']['pool']['magento']['start_servers'] = 5
-set_unless['php-fpm']['pool']['magento']['min_spare_servers'] = 5
-set_unless['php-fpm']['pool']['magento']['max_spare_servers'] = 35
-set_unless['php-fpm']['pool']['magento']['max_requests'] = 500
+set_unless['php-fpm']['magento']['listen'] = "127.0.0.1:9001"
+set_unless['php-fpm']['magento']['allowed_clients'] = ["127.0.0.1"]
+set_unless['php-fpm']['magento']['user'] = 'magento'
+set_unless['php-fpm']['magento']['group'] = 'magento'
+set_unless['php-fpm']['magento']['process_manager'] = "dynamic"
+set_unless['php-fpm']['magento']['max_children'] = 50
+set_unless['php-fpm']['magento']['start_servers'] = 5
+set_unless['php-fpm']['magento']['min_spare_servers'] = 5
+set_unless['php-fpm']['magento']['max_spare_servers'] = 35
+set_unless['php-fpm']['magento']['max_requests'] = 500
 
 default['php-fpm']['master'] = '127.0.0.1'
 default['php-fpm']['slaves'] = []
@@ -89,6 +89,7 @@ default[:magento][:memcached][:sessions][:port] = 11211
 default[:magento][:memcached][:sessions][:maxconn] = 2048 
 default[:magento][:memcached][:sessions][:listen] = "127.0.0.1"
 default[:magento][:memcached][:sessions][:interface] = "eth1"
+default[:magento][:memcached][:sessions][:logfilename] = "memcached.log"
 default[:magento][:memcached][:clients] = []
 
 # Memcached Server Slow Backend Settings
@@ -97,6 +98,7 @@ default[:magento][:memcached][:slow_backend][:port] = 11212
 default[:magento][:memcached][:slow_backend][:maxconn] = 2048
 default[:magento][:memcached][:slow_backend][:listen] = "127.0.0.1"
 default[:magento][:memcached][:slow_backend][:interface] = "eth1"
+default[:magento][:memcached][:slow_backend][:logfilename] = "memcached.log"
 
 # Memcached Server, used for configuring client servers
 default[:magento][:memcached][:servers][:sessions][:servers] = "127.0.0.1"

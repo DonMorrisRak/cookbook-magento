@@ -63,7 +63,7 @@ unless File.exist?("#{node[:magento][:dir]}/.installed")
     system true
   end
 
-  node.set['php-fpm']['pool']['magento']['listen'] = "#{node['php-fpm']['master']}:9001"
+  node.set['php-fpm']['magento']['listen'] = "#{node['php-fpm']['master']}:9001"
   # EOF: Initialization block
 
   # Install Required Repos: IUS, EPEL
@@ -253,6 +253,3 @@ unless File.exist?("#{node[:magento][:dir]}/.installed")
     EOH
   end
 end
-
-# Allow all slave nodes to leverage this instance of PHP FPM
-fpm_allow
