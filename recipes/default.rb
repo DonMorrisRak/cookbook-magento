@@ -66,12 +66,17 @@ unless File.exist?("#{node[:magento][:dir]}/.installed")
   node.set['php-fpm']['pool']['magento']['listen'] = "#{node['php-fpm']['master']}:9001"
   # EOF: Initialization block
 
-  # Install Required Repos: IUS, EPEL 
+  # Install Required Repos: IUS, EPEL
+  case node["platform_family"]
+  when "rhel", "fedora"
   execute "Install Repos" do
     command "rpm -Uhv --nosignature --force http://dl.iuscommunity.org/pub/ius/stable/CentOS/6/x86_64/epel-release-6-5.noarch.rpm http://dl.iuscommunity.org/pub/ius/stable/CentOS/6/x86_64/ius-release-1.0-11.ius.centos6.noarch.rpm"
     action  :run
   end
-
+  execute 'reload-external-yum-cache' do
+    command 'yum makecache'
+    action :nothing
+  end
   # Install php-fpm package
   include_recipe "php-fpm"
 
