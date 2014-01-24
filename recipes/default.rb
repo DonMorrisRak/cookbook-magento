@@ -69,13 +69,14 @@ unless File.exist?("#{node[:magento][:dir]}/.installed")
   # Install Required Repos: IUS, EPEL
   case node["platform_family"]
   when "rhel", "fedora"
-  execute "Install Repos" do
+   execute "Install Repos" do
     command "rpm -Uhv --nosignature --force http://dl.iuscommunity.org/pub/ius/stable/CentOS/6/x86_64/epel-release-6-5.noarch.rpm http://dl.iuscommunity.org/pub/ius/stable/CentOS/6/x86_64/ius-release-1.0-11.ius.centos6.noarch.rpm"
     action  :run
-  end
-  execute 'reload-external-yum-cache' do
+   end
+   execute 'reload-external-yum-cache' do
     command 'yum makecache'
     action :nothing
+   end
   end
   # Install php-fpm package
   include_recipe "php-fpm"
