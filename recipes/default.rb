@@ -81,34 +81,6 @@ unless File.exist?("#{node[:magento][:dir]}/.installed")
   # Install php-fpm package
   include_recipe "php-fpm"
 
-  #Install Mcrypt
-  %w{ php-mcrypt libmcrypt }.each do |mcinstall|
-    package mcinstall do
-     action :install
-    end
-  end
-    
-  
-  ##execute "Mcrypt PHP Install"
-  ##command "yum makecache ; yum -y install php-mcrypt.x86_64 libmcrypt.x86_64"
-  ##action  :run
-  
-
-#  # Centos Polyfills
-#  if platform?('centos', 'redhat')
-#    execute "Install libmcrypt" do
-#      not_if "rpm -qa | grep -qx  'libmcrypt-2.5.7-1.2.el6.rf'"
-#      command "rpm -Uvh --nosignature --replacepkgs http://pkgs.repoforge.org/libmcrypt/libmcrypt-2.5.7-1.2.el6.rf.#{machine}.rpm"
-#      action :run
-#    end
-#    execute "Install php-mcrypt" do
-#      not_if "rpm -qa | grep -qx 'php-mcrypt'"
-#      command "rpm -Uvh --nosignature --replacepkgs http://dl.fedoraproject.org/pub/epel/6/x86_64/php-mcrypt-5.3.3-1.el6.x86_64.rpm"
-#      action :run
-#      notifies :restart, "service[php-fpm]"
-#    end
-#  end
-
   # Install required packages
   node[:magento][:packages].each do |package|
     package "#{package}" do
