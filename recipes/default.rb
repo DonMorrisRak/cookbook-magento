@@ -78,15 +78,22 @@ unless File.exist?("#{node[:magento][:dir]}/.installed")
     action :nothing
    end
   end
-  # Install php-fpm package
-  include_recipe "php-fpm"
 
-  # Install required packages
+# Install required packages
   node[:magento][:packages].each do |package|
     package "#{package}" do
       action :install
     end
   end
+
+  # Install php-fpm package
+  #include_recipe "php-fpm"
+ if platform_family?("rhel", "fedora")
+   service "php-fpm" do
+   action [ :enable, :start ]
+   supports :status => true, :start => true, :stop => true, :restart => true
+  end
+ end
 
   # Ubuntu Polyfills
   if platform?('ubuntu', 'debian')

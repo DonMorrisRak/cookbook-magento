@@ -29,9 +29,9 @@ default[:magento][:enable_charts] = "yes"
 # Required packages
 case node[:platform_family]
 when "rhel"
-  default[:magento][:packages] = ['php-cli', 'php-common', 'php-curl', 'php-gd', 'php-mysql', 'php-pear', 'php-pecl-apc', 'php-xml', 'php-mcrypt', 'libmcrypt', 'ruby-devel', 'mysql-devel']
+  default[:magento][:packages] = ['php53u-cli', 'php53u-common', 'php53u-curl', 'php53u-gd', 'php53u-mysql', 'php53u-pear', 'php53u-pecl-apc', 'php53u-xml', 'php53u-xmlrpc', 'php53u-soap', 'php53u-fpm', 'php53u-mcrypt', 'libmcrypt', 'ruby-devel', 'mysql-devel']
 when "fedora"
-  default[:magento][:packages] = ['php-cli', 'php-common', 'php-curl', 'php-gd', 'php-mcrypt', 'php-mysql', 'php-pear', 'php-apc', 'php-xml']
+  default[:magento][:packages] = ['php53u-cli', 'php53u-common', 'php53u-curl', 'php53u-gd', 'php53u-mysql', 'php53u-pear', 'php53u-pecl-apc', 'php53u-xml', 'php53u-xmlrpc', 'php53u-soap', 'php53u-fpm', 'php53u-mcrypt', 'libmcrypt', 'ruby-devel', 'mysql-devel']
 else
   default[:magento][:packages] = ['php5-cli', 'php5-common', 'php5-curl', 'php5-gd', 'php5-mcrypt', 'php5-mysql', 'php-pear', 'php-apc']
 end
@@ -39,21 +39,21 @@ end
 # Web Server
 default[:magento][:webserver] = 'nginx'
 
-set['php-fpm']['pool'] = ["magento"]
+#set['php-fpm']['pool'] = ["magento"]
 
-set_unless['php-fpm']['magento']['listen'] = "127.0.0.1:9001"
-set_unless['php-fpm']['magento']['allowed_clients'] = ["127.0.0.1"]
-set_unless['php-fpm']['magento']['user'] = 'magento'
-set_unless['php-fpm']['magento']['group'] = 'magento'
-set_unless['php-fpm']['magento']['process_manager'] = "dynamic"
-set_unless['php-fpm']['magento']['max_children'] = 50
-set_unless['php-fpm']['magento']['start_servers'] = 5
-set_unless['php-fpm']['magento']['min_spare_servers'] = 5
-set_unless['php-fpm']['magento']['max_spare_servers'] = 35
-set_unless['php-fpm']['magento']['max_requests'] = 500
+#set_unless['php-fpm']['magento']['listen'] = "127.0.0.1:9001"
+#set_unless['php-fpm']['magento']['allowed_clients'] = ["127.0.0.1"]
+#set_unless['php-fpm']['magento']['user'] = 'magento'
+#set_unless['php-fpm']['magento']['group'] = 'magento'
+#set_unless['php-fpm']['magento']['process_manager'] = "dynamic"
+#set_unless['php-fpm']['magento']['max_children'] = 50
+#set_unless['php-fpm']['magento']['start_servers'] = 5
+#set_unless['php-fpm']['magento']['min_spare_servers'] = 5
+#set_unless['php-fpm']['magento']['max_spare_servers'] = 35
+#set_unless['php-fpm']['magento']['max_requests'] = 500
 
-default['php-fpm']['master'] = '127.0.0.1'
-default['php-fpm']['slaves'] = []
+#default['php-fpm']['master'] = '127.0.0.1'
+#default['php-fpm']['slaves'] = []
 
 # Database Credentials & Connection Settings
 ::Chef::Node.send(:include, Opscode::OpenSSL::Password)

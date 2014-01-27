@@ -22,7 +22,7 @@ when "ubuntu", "debian"
     notifies :restart, "service[php-fpm]"
   end
 when "centos", "fedora"
-  package "php-pecl-memcache" do
+  package "php53u-pecl-memcache" do
     action :install
     notifies :restart, "service[php-fpm]"
   end
