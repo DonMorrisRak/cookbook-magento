@@ -63,7 +63,7 @@ server {
         }
         location ~\.php$ {
                 expires        off; ## Do not cache dynamic content
-                fastcgi_pass  $fcgi_pass;
+                fastcgi_pass  unix:/dev/shm/magento-php.sock;
                 fastcgi_index  index.php;
                 fastcgi_param  SCRIPT_FILENAME  <%= @path %>$fastcgi_script_name;
                 ## These two lines are only needed for magento vhosts - so commented out for now

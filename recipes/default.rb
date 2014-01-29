@@ -95,6 +95,27 @@ unless File.exist?("#{node[:magento][:dir]}/.installed")
   end
  end
 
+ if platform_family?("rhel", "fedora")
+   file "/etc/php-fpm.d/www.conf" do
+   action :delete
+  end
+ end
+#   bash "Remove default pool file"
+#     cwd "/etc/php-fpm.d/"
+#     code <<-EOH
+#     rm -rf www.conf
+#     EOH
+#   end
+# end
+
+ template "/etc/php-fpm.d/magento.conf" do
+    source "php-fpm.erb"
+    owner "root"
+    group "root"
+    mode "0644"
+    notifies :restart, "service[varnish]"
+ end
+
   # Ubuntu Polyfills
   if platform?('ubuntu', 'debian')
     bash "Tweak CLI php.ini file" do

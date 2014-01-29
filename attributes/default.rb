@@ -39,22 +39,6 @@ end
 # Web Server
 default[:magento][:webserver] = 'nginx'
 
-#set['php-fpm']['pool'] = ["magento"]
-
-#set_unless['php-fpm']['magento']['listen'] = "127.0.0.1:9001"
-#set_unless['php-fpm']['magento']['allowed_clients'] = ["127.0.0.1"]
-#set_unless['php-fpm']['magento']['user'] = 'magento'
-#set_unless['php-fpm']['magento']['group'] = 'magento'
-#set_unless['php-fpm']['magento']['process_manager'] = "dynamic"
-#set_unless['php-fpm']['magento']['max_children'] = 50
-#set_unless['php-fpm']['magento']['start_servers'] = 5
-#set_unless['php-fpm']['magento']['min_spare_servers'] = 5
-#set_unless['php-fpm']['magento']['max_spare_servers'] = 35
-#set_unless['php-fpm']['magento']['max_requests'] = 500
-
-#default['php-fpm']['master'] = '127.0.0.1'
-#default['php-fpm']['slaves'] = []
-
 # Database Credentials & Connection Settings
 ::Chef::Node.send(:include, Opscode::OpenSSL::Password)
 
