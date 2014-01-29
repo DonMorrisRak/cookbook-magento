@@ -11,8 +11,6 @@ recipe           "magento", "Prepares app stack for magento deployments"
   supports os
 end
 
-%w{ apt yum apache2 nginx mysql openssl php firewall memcached varnish }.each do |cb|
+%w{ apt yum apache2 mysql nginx openssl percona-install php firewall memcached varnish }.each do |cb|
   depends cb
 end
-
-depends "php-fpm", ">= 0.4.1"

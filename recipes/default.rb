@@ -10,7 +10,8 @@ unless File.exist?("#{node[:magento][:dir]}/.installed")
   else
     include_recipe "apt"
   end
-  include_recipe "mysql::ruby"
+  #include_recipe "mysql::ruby"
+  include_recipe "percona-install" 
 
   if node.has_key?("ec2")
     server_fqdn = node.ec2.public_hostname
@@ -63,9 +64,6 @@ unless File.exist?("#{node[:magento][:dir]}/.installed")
     system true
   end
 
-  node.set['php-fpm']['magento']['listen'] = "#{node['php-fpm']['master']}:9001"
-  # EOF: Initialization block
-
   # Install Required Repos: IUS, EPEL
   case node["platform_family"]
   when "rhel", "fedora"
@@ -87,7 +85,6 @@ unless File.exist?("#{node[:magento][:dir]}/.installed")
   end
 
   # Install php-fpm package
-  #include_recipe "php-fpm"
  if platform_family?("rhel", "fedora")
    service "php-fpm" do
    action [ :enable, :start ]

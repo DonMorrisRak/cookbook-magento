@@ -29,9 +29,9 @@ default[:magento][:enable_charts] = "yes"
 # Required packages
 case node[:platform_family]
 when "rhel"
-  default[:magento][:packages] = ['php53u-cli', 'php53u-common', 'php53u-curl', 'php53u-gd', 'php53u-mysql', 'php53u-pear', 'php53u-pecl-apc', 'php53u-xml', 'php53u-xmlrpc', 'php53u-soap', 'php53u-fpm', 'php53u-mcrypt', 'libmcrypt', 'ruby-devel', 'mysql-devel']
+  default[:magento][:packages] = ['php53u-cli', 'php53u-common', 'php53u-curl', 'php53u-gd', 'php53u-mysql', 'php53u-pear', 'php53u-pecl-apc', 'php53u-xml', 'php53u-xmlrpc', 'php53u-soap', 'php53u-fpm', 'php53u-mcrypt', 'libmcrypt', 'ruby-devel']
 when "fedora"
-  default[:magento][:packages] = ['php53u-cli', 'php53u-common', 'php53u-curl', 'php53u-gd', 'php53u-mysql', 'php53u-pear', 'php53u-pecl-apc', 'php53u-xml', 'php53u-xmlrpc', 'php53u-soap', 'php53u-fpm', 'php53u-mcrypt', 'libmcrypt', 'ruby-devel', 'mysql-devel']
+  default[:magento][:packages] = ['php53u-cli', 'php53u-common', 'php53u-curl', 'php53u-gd', 'php53u-mysql', 'php53u-pear', 'php53u-pecl-apc', 'php53u-xml', 'php53u-xmlrpc', 'php53u-soap', 'php53u-fpm', 'php53u-mcrypt', 'libmcrypt', 'ruby-devel']
 else
   default[:magento][:packages] = ['php5-cli', 'php5-common', 'php5-curl', 'php5-gd', 'php5-mcrypt', 'php5-mysql', 'php-pear', 'php-apc']
 end

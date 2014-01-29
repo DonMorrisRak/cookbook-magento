@@ -1,29 +1,31 @@
 define :magento_database do
 
-  # necessary for mysql gem installation
-  package "make" do
-    action :install
-  end
+##  # necessary for mysql gem installation
+##  package "make" do
+##    action :install
+##  end
 
-  case node[:platform_family]
-  when "rhel", "fedora"
+##  case node[:platform_family]
+##  when "rhel", "fedora"
 
-    package "mysql-devel" do
-      action :install
-    end
+##    package "mysql-devel" do
+##      action :install
+##    end
 
-    chef_gem "mysql" do
-      action :install
-    end
+##    chef_gem "mysql" do
+##      action :install
+##    end
 
-  else
-    gem_package "mysql" do
-      action :install
-    end
+##  else
+##    gem_package "mysql" do
+##      action :install
+##    end
 
-  end
+ ## end
 
-  include_recipe "mysql::server"
+##  include_recipe "mysql::server"
+   include_recipe "percona-install::client"
+   include_recipe "percona-install::server"
 
   execute "mysql-install-mage-privileges" do
     command "/usr/bin/mysql -u root -h localhost -P #{node[:mysql][:port]} -p#{node[:mysql][:server_root_password]} < /etc/mysql/mage-grants.sql"
