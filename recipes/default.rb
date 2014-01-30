@@ -97,13 +97,6 @@ unless File.exist?("#{node[:magento][:dir]}/.installed")
    action :delete
   end
  end
-#   bash "Remove default pool file"
-#     cwd "/etc/php-fpm.d/"
-#     code <<-EOH
-#     rm -rf www.conf
-#     EOH
-#   end
-# end
 
  template "/etc/php-fpm.d/magento.conf" do
     source "php-fpm.erb"
@@ -171,15 +164,6 @@ unless File.exist?("#{node[:magento][:dir]}/.installed")
       command "tar --strip-components 1 --no-same-owner -kxzf #{Chef::Config[:file_cache_path]}/magento.tar.gz"
     end
   end
-
-  # Setup Database
-  # if Chef::Config[:solo]
-  # else
-    # FIXME: data bags search throwing 404 error: Net::HTTPServerException
-    # db_config = search(:db_config, "id:master").first || { :host => 'localhost' }
-    # db_user = search(:db_users, "id:magento").first || node[:magento][:db]
-    # enc_key = search(:magento, "id:enckey").first
-  # end
 
   if Magento.ip_is_local?(node, node[:mysql][:bind_address])
     include_recipe "magento::mysql"
