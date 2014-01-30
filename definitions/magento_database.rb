@@ -1,29 +1,5 @@
 define :magento_database do
-
-##  # necessary for mysql gem installation
-##  package "make" do
-##    action :install
-##  end
-
-##  case node[:platform_family]
-##  when "rhel", "fedora"
-
-##    package "mysql-devel" do
-##      action :install
-##    end
-
-##    chef_gem "mysql" do
-##      action :install
-##    end
-
-##  else
-##    gem_package "mysql" do
-##      action :install
-##    end
-
- ## end
-
-##  include_recipe "mysql::server"
+ 
    include_recipe "percona-install::server"
    include_recipe "percona-install::client"
 
@@ -53,13 +29,6 @@ define :magento_database do
 
   execute "create #{node[:magento][:db][:database]} database" do
     command "/usr/bin/mysqladmin -u root -h localhost -P #{node[:mysql][:port]} -p#{node[:mysql][:server_root_password]} create #{node[:magento][:db][:database]}"
-    #not_if do
-      #require 'rubygems'
-      #Gem.clear_paths
-      #require 'mysql'
-      #m = Mysql.new("localhost", "root", node[:mysql][:server_root_password], "mysql", node[:mysql][:port].to_i)
-      #m.list_dbs.include?(node[:magento][:db][:database])
-    #end
     end
 
   # Setup /root/.my.cnf for easier management
