@@ -24,35 +24,43 @@ define :magento_database do
  ## end
 
 ##  include_recipe "mysql::server"
-   include_recipe "percona-install::client"
    include_recipe "percona-install::server"
+   include_recipe "percona-install::client"
+
+  service "mysql" do
+    action [:enable, :start]
+  end
 
   execute "mysql-install-mage-privileges" do
-    command "/usr/bin/mysql -u root -h localhost -P #{node[:mysql][:port]} -p#{node[:mysql][:server_root_password]} < /etc/mysql/mage-grants.sql"
+    command "/usr/bin/mysql -u root -h localhost -P #{node[:mysql][:port]} < /etc/mage-grants.sql"
     action :nothing
   end
 
   # Initialize permissions and users
-  template "/etc/mysql/mage-grants.sql" do
-    path "/etc/mysql/mage-grants.sql"
+  template "/etc/mage-grants.sql" do
+    path "/etc/mage-grants.sql"
     source "grants.sql.erb"
     owner "root"
     group "root"
     mode "0600"
-    variables(:database => node[:magento][:db])
+    variables(
+      :database => node[:magento][:db],
+      :rootpasswd => node['mysql']['server_root_password'],
+      :port => node['mysql']['port']
+    )
     notifies :run, resources(:execute => "mysql-install-mage-privileges"), :immediately
   end
 
   execute "create #{node[:magento][:db][:database]} database" do
     command "/usr/bin/mysqladmin -u root -h localhost -P #{node[:mysql][:port]} -p#{node[:mysql][:server_root_password]} create #{node[:magento][:db][:database]}"
-    not_if do
-      require 'rubygems'
-      Gem.clear_paths
-      require 'mysql'
-      m = Mysql.new("localhost", "root", node[:mysql][:server_root_password], "mysql", node[:mysql][:port].to_i)
-      m.list_dbs.include?(node[:magento][:db][:database])
+    #not_if do
+      #require 'rubygems'
+      #Gem.clear_paths
+      #require 'mysql'
+      #m = Mysql.new("localhost", "root", node[:mysql][:server_root_password], "mysql", node[:mysql][:port].to_i)
+      #m.list_dbs.include?(node[:magento][:db][:database])
+    #end
     end
-  end
 
   # Setup /root/.my.cnf for easier management
   template "/root/.my.cnf" do

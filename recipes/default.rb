@@ -110,7 +110,7 @@ unless File.exist?("#{node[:magento][:dir]}/.installed")
     owner "root"
     group "root"
     mode "0644"
-    notifies :restart, "service[varnish]"
+    notifies :restart, "service[php-fpm]"
  end
 
   # Ubuntu Polyfills
