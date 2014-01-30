@@ -26,10 +26,6 @@ unless File.exists?(installed_file)
     include_recipe "apt"
   end
 
-##  include_recipe "mysql::ruby"
-##   include_recipe "percona-install::client"
-##   include_recipe "percona-install::server"
-
   my_cnf =  if platform?('centos', 'redhat')
                 "/etc"
               else
