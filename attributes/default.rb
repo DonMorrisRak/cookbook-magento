@@ -37,7 +37,11 @@ else
 end
 
 # Web Server
-default[:magento][:webserver] = 'nginx'
+default[:magento][:webserver] = 'apache'
+default[:apache][:listen_ports] = %w[8080]
+default[:apache][:docroot_dir] = '/var/www/vhosts'
+default[:apache][:default_site_enabled] = true
+default[:apache][:default_modules] = %w[ status alias auth_basic authn_file authz_default authz_groupfile authz_host authz_user autoindex dir env mime negotiation setenvif headers expires log_config logio]
 
 # Database Credentials & Connection Settings
 ::Chef::Node.send(:include, Opscode::OpenSSL::Password)

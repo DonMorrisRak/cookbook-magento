@@ -151,7 +151,16 @@ unless File.exist?("#{node[:magento][:dir]}/.installed")
   end
 
   # Install and configure nginx
-  magento_site
+##  magento_site
+    include_recipe "apache2"
+    
+    begin
+      t = resources(:template => "#{node['apache']['dir']}/sites-available/default")
+      t.source "default-site.erb"
+      t.cookbook "magento"
+    rescue Chef::Exceptions::ResourceNotFound
+      Chef::Log.warn "could not find template to modify"
+    end
 
   # Fetch magento release
   unless node[:magento][:download_url].empty?
