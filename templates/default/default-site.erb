@@ -1,0 +1,33 @@
+<VirtualHost *:8080>
+
+  ServerName <%= node[:magento][:hostname] %>
+  ServerAlias www.<%= node[:magento][:hostname] %>
+  DocumentRoot <%= node[:magento][:dir] %>/
+
+  <IfModule mod_fastcgi.c>
+        Alias /php.fcgi /dev/shm/magento-php.fcgi
+  </IfModule>
+
+# Enable this line if you are terminating your SSL on a load-balancer.
+# SetEnvIf X-Forwarded-Proto https HTTPS=on
+
+  <Directory <%= node[:magento][:dir] %>/>
+    Options +FollowSymLinks
+    AllowOverride All
+    # mod_deflate settings
+    SetOutputFilter DEFLATE
+    BrowserMatch ^Mozilla/4 gzip-only-text/html
+    BrowserMatch ^Mozilla/4\.0[678] no-gzip
+    BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+    SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png)$ no-gzip dont-vary
+    Header append Vary User-Agent env=!dont-vary
+    # mod_expires settings
+    ExpiresActive On
+    ExpiresDefault "access plus 1 month"
+  </Directory>
+
+  #Log settings
+  CustomLog /var/log/httpd/<%= node[:magento][:hostname] %>-access_log combined
+  ErrorLog /var/log/httpd/<%= node[:magento][:hostname] %>-error_log
+
+</VirtualHost>

@@ -1,0 +1,31 @@
+;Configuration Pool for Magento
+[magento]
+listen = /dev/shm/magento-php.sock
+listen.backlog = 128
+
+listen.owner = <%= node[:magento][:system_user] %>
+
+listen.group = apache
+listen.mode = 0660
+ 
+user = <%= node[:magento][:system_user] %>
+
+pm = dynamic 
+pm.max_children = 100
+pm.start_servers = 35
+pm.max_spare_servers = 50
+pm.min_spare_servers = 35
+pm.max_requests = 500
+
+rlimit_files = 1024
+rlimit_core = unlimited ; limit files created by a core dump.
+
+catch_workers_output = yes
+
+;Enable slow logs
+request_slowlog_timeout = 5s
+slowlog = /var/log/php-fpm/slow.log
+
+php_admin_value[error_log] = /var/log/php-fpm/error.log
+php_admin_flag[log_errors] = on
+php_admin_value[memory_limit] = 512M
