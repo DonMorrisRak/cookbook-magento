@@ -162,6 +162,13 @@ unless File.exist?("#{node[:magento][:dir]}/.installed")
       Chef::Log.warn "could not find template to modify"
     end
 
+    template "/etc/httpd/mods-available/fastcgi.conf" do
+        source "fastcgi.erb"
+        owner "root"
+        group "root"
+        mode "0644"
+    end
+
   # Fetch magento release
   unless node[:magento][:download_url].empty?
     remote_file "#{Chef::Config[:file_cache_path]}/magento.tar.gz" do
