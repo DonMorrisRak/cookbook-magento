@@ -150,8 +150,7 @@ unless File.exist?("#{node[:magento][:dir]}/.installed")
     recursive true
   end
 
-  # Install and configure nginx
-##  magento_site
+  # Install and configure Apache
     include_recipe "apache2"
     
     begin
