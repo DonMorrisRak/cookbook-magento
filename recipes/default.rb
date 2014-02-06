@@ -221,15 +221,20 @@ unless File.exist?("#{node[:magento][:dir]}/.installed")
   # Install and configure varnish
   include_recipe "magento::varnish" if node[:magento][:varnish][:use_varnish]
 
-  # Index everything
-  Magento.reindex_all("#{node[:magento][:dir]}/shell/indexer.php")
-
+  #Reindex Magento
+  bash "Tweak CLI php.ini file" do
+    cwd node[:magento][:dir]
+    code <<-EOH
+    php -f shell/indexer.php reindexall
+    EOH
+  end
+  
   bash "Final verification of permissions & ownership" do
     cwd node[:magento][:dir]
     code <<-EOH
     chown -R #{user}:#{group} #{node[:magento][:dir]}
-    chmod -R o+w media
-    chmod -R o+w var
+    find . -type d | xargs chmod 775
+    find . -type f | xargs chmod 664
     EOH
   end
 

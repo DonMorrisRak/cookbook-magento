@@ -3,6 +3,15 @@ define :magento_database do
    include_recipe "percona-install::server"
    include_recipe "percona-install::client"
 
+    # Setup my.cnf
+  template "/etc/my.cnf" do
+    path "/etc/my.cnf"
+    source "my.cnf.erb"
+    owner "root"
+    group "root"
+    mode "0600"
+  end
+
   service "mysql" do
     action [:enable, :start]
   end

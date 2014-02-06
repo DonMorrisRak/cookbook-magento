@@ -8,7 +8,10 @@ LogFormat "%{X-Forwarded-For}i %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-A
   DocumentRoot <%= node[:magento][:dir] %>/
 
   <IfModule mod_fastcgi.c>
-        Alias /php.fcgi /dev/shm/magento-php.fcgi
+   AddHandler php-fpm .php
+   Action php-fpm /php.fcgi
+   Alias /php.fcgi /dev/shm/magento-php.fcgi
+   DirectoryIndex index.php
   </IfModule>
 
 # Enable this line if you are terminating your SSL on a load-balancer.
@@ -47,7 +50,10 @@ LogFormat "%{X-Forwarded-For}i %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-A
   SSLCertificateKeyFile /etc/pki/tls/private/localhost.key
 
   <IfModule mod_fastcgi.c>
-        Alias /php.fcgi /dev/shm/magento-php.fcgi
+   AddHandler php-fpm .php
+   Action php-fpm /php.fcgi
+   Alias /php.fcgi /dev/shm/magento-php.fcgi
+   DirectoryIndex index.php
   </IfModule>
 
 # Enable this line if you are terminating your SSL on a load-balancer.
