@@ -1,0 +1,48 @@
+[mysqld]
+user                            = mysql
+port                            = 3306
+datadir                         = /var/lib/mysql
+tmpdir                          = /tmp
+socket                          = /var/lib/mysql/mysql.sock
+skip-external-locking           = 1
+log_error                       = /var/log/mysqld.log
+log-slow-queries                =/var/log/mysql/slow-query.log
+long_query_time=5
+open-files-limit                = 20000
+thread-cache-size               = 16
+table-open-cache                = 2048
+table-definition-cache          = 512
+query-cache-type                = 1
+query-cache-size                = 32M
+query-cache-limit               = 1M
+sort-buffer-size                = 2M
+read-buffer-size                = 2M
+read-rnd-buffer-size            = 8M
+join-buffer-size                = 2M
+tmp-table-size                  = 96M
+max-heap-table-size             = 96M
+back-log                        = 100
+max-connections                 = 500
+max-connect-errors              = 10000
+max-allowed-packet              = 32M
+interactive-timeout             = 600
+wait-timeout                    = 180
+net_read_timeout                = 30
+net_write_timeout               = 30
+back_log                        = 128
+default-storage-engine          = InnoDB
+innodb                          = FORCE
+key-buffer-size                 = 512M
+myisam-sort-buffer-size         = 128M
+innodb-buffer-pool-size         = 1G
+innodb-log-buffer-size          = 8M
+innodb-log-file-size            = 128M
+innodb-log-files-in-group       = 2
+innodb-file-per-table           = 1
+server-id                       = 1
+ 
+[mysqld-safe]
+log-error                       = /var/log/mysqld.log
+ 
+[mysqldump]
+max-allowed-packet              = 16M
