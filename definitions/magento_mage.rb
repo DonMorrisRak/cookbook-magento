@@ -32,9 +32,4 @@ define :magento_mage do
     notifies :restart, "service[varnish]"
   end
   
-    execute "Allow Varnish PURGE from ServiceNet" do
-    user "root"
-    command "sed -i 's/^acl purge \{/acl purge \{\\n  \"localhost\";\\n  \"10.0.0.0\"\\\/8;/g' /etc/varnish/default.vcl"
-    notifies :restart, "service[varnish]"
-  end
 end

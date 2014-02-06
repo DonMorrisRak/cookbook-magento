@@ -10,7 +10,6 @@ unless File.exist?("#{node[:magento][:dir]}/.installed")
   else
     include_recipe "apt"
   end
-  #include_recipe "mysql::ruby"
   include_recipe "percona-install" 
 
   if node.has_key?("ec2")
@@ -241,6 +240,9 @@ unless File.exist?("#{node[:magento][:dir]}/.installed")
     chmod 644 app/etc/local.xml
     EOH
   end
+
+  # Install Vim
+  include_recipe "vim"
 
   bash "Touch .installed flag" do
     cwd node[:magento][:dir]

@@ -1,3 +1,6 @@
+#Log Source IP Address
+LogFormat "%{X-Forwarded-For}i %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" varnishcombined
+
 <VirtualHost *:8080>
 
   ServerName <%= node[:magento][:hostname] %>
@@ -27,7 +30,7 @@
   </Directory>
 
   #Log settings
-  CustomLog /var/log/httpd/<%= node[:magento][:hostname] %>-access_log combined
+  CustomLog /var/log/httpd/<%= node[:magento][:hostname] %>-access_log varnishcombined
   ErrorLog /var/log/httpd/<%= node[:magento][:hostname] %>-error_log
 
 </VirtualHost>
