@@ -29,6 +29,10 @@ Vagrant.configure("2") do |config|
 
   # config.vm.network :public_network
 
+  config.vm.provider "virtualbox" do |v| 
+    v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+  end
+
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
@@ -56,8 +60,8 @@ Vagrant.configure("2") do |config|
   # View the documentation for the provider you're using for more
   # information on available options.
 
-  config.ssh.max_tries = 40
-  config.ssh.timeout   = 120
+#  config.ssh.max_tries = 40
+#  config.ssh.timeout   = 120
 
   # The path to the Berksfile to use with Vagrant Berkshelf
   config.berkshelf.berksfile_path = "./Berksfile"
