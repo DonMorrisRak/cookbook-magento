@@ -6,11 +6,6 @@ node.set[:memcached][:port] = node[:magento][:memcached][:sessions][:port]
 node.set[:memcached][:listen] = node[:magento][:memcached][:sessions][:listen]
 node.set[:memcached][:maxconn] = node[:magento][:memcached][:sessions][:maxconn]
 
-node.set[:memcached][:memory] = node[:magento][:memcached][:slow_backend][:memory]
-node.set[:memcached][:port] = node[:magento][:memcached][:slow_backend][:port]
-node.set[:memcached][:listen] = node[:magento][:memcached][:slow_backend][:listen]
-node.set[:memcached][:maxconn] = node[:magento][:memcached][:slow_backend][:maxconn]
-
 package "memcached"
 package "libmemcached-devel"
 
@@ -43,6 +38,7 @@ package "libmemcached-devel"
       :logfilename => node[:magento][:memcached][:sessions]['logfilename']
     )
   end
+
   template "/etc/init.d/memcached_backend" do
     source "memcached-init.erb"
     mode 0755
